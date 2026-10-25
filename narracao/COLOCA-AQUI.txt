@@ -1,0 +1,7 @@
+NARRACAO COM A TUA VOZ (opcional, mas e o que mais emociona)
+
+Grava no celular a tua voz a ler o texto de um episodio (o gravador de voz serve).
+Guarda aqui em .mp3 ou .m4a, por exemplo:  ep1.mp3
+No config.js, dentro desse episodio, acrescenta:   narracaoAudio: "narracao/ep1.mp3",
+
+Nesse episodio a tua voz substitui a voz do celular.

@@ -1,0 +1,10 @@
+MUSICA
+
+Coloca aqui a 'vossa musica' em .mp3 (de preferencia com o nome  tema.mp3).
+Outro nome tambem serve depois de atualizares a lista (no GitHub e automatico).
+Ela toca em todos os episodios.
+
+Musica diferente num episodio: poe o mp3 aqui (ex.: mesversario.mp3) e no config.js,
+dentro desse episodio, acrescenta:   musica: "musica/mesversario.mp3",
+
+Sem nenhum mp3, a app compoe sozinha uma musica suave de piano.

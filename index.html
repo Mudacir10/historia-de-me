@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="pt">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex, nofollow, noimageindex">
+  <meta name="theme-color" content="#1a0a12">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="M&amp;E">
+  <meta name="description" content="Uma série feita só para ti.">
+  <title>A História de M&amp;E</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" type="image/png" href="app/icones/icone-192.png">
+  <link rel="apple-touch-icon" href="app/icones/icone-180.png">
+  <link rel="stylesheet" href="app/estilo.css">
+
+  <!-- Apanha erros de escrita no config.js para mostrar uma mensagem útil -->
+  <script>
+    window.__errosCarga = [];
+    window.addEventListener('error', function (e) {
+      if (e && e.message) window.__errosCarga.push({ ficheiro: String(e.filename || '').split('/').pop(), linha: e.lineno, msg: e.message });
+    });
+  </script>
+</head>
+<body>
+
+  <!-- Mensagem quando o config.js tem um erro -->
+  <section id="erro-config" class="ecra ecra-erro" hidden>
+    <div class="erro-caixa">
+      <p class="erro-titulo">Há um pequeno erro no ficheiro de configuração</p>
+      <p class="erro-texto"></p>
+      <p class="erro-dica">Abre o <b>config.js</b> e procura uma vírgula, aspa ou chaveta em falta perto da linha indicada. Guarda e atualiza esta página.</p>
+    </div>
+  </section>
+
+  <!-- 1. Abertura: toque inicial (também desbloqueia o som no celular) -->
+  <section id="ecra-abertura" class="ecra ecra-abertura">
+    <div class="abertura-brilho" aria-hidden="true"></div>
+    <div class="abertura-conteudo">
+      <p class="abertura-marca" aria-hidden="true"></p>
+      <p class="abertura-frase"></p>
+      <button class="btn btn-primario btn-grande" id="btn-abrir" type="button"></button>
+    </div>
+  </section>
+
+  <!-- 2. Revelação do logótipo -->
+  <section id="ecra-revelacao" class="ecra ecra-revelacao" hidden aria-hidden="true">
+    <svg class="revelacao-svg" viewBox="0 0 600 280" role="presentation">
+      <defs>
+        <linearGradient id="grad-champanhe" x1="0" x2="1" y1="0" y2="1">
+          <stop offset="0" stop-color="#f6dcb6"/>
+          <stop offset=".55" stop-color="#e9c89b"/>
+          <stop offset="1" stop-color="#c99b6a"/>
+        </linearGradient>
+        <radialGradient id="grad-brilho">
+          <stop offset="0" stop-color="#e9c89b" stop-opacity=".55"/>
+          <stop offset="1" stop-color="#e9c89b" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+      <circle class="rev-brilho" cx="300" cy="150" r="190" fill="url(#grad-brilho)"/>
+      <g class="rev-coracao">
+        <text class="rev-letra rev-esq" x="150" y="205" text-anchor="middle"></text>
+        <text class="rev-amp" x="300" y="210" text-anchor="middle"></text>
+        <text class="rev-letra rev-dir" x="450" y="205" text-anchor="middle"></text>
+      </g>
+    </svg>
+    <button class="btn-saltar-rev" type="button" aria-label="Saltar">Saltar</button>
+  </section>
+
+  <!-- 3. Senha romântica (opcional) -->
+  <section id="ecra-senha" class="ecra ecra-senha" hidden>
+    <form class="senha-caixa" autocomplete="off">
+      <p class="senha-marca" aria-hidden="true"></p>
+      <label for="senha-input" class="senha-pergunta"></label>
+      <input id="senha-input" class="senha-input" inputmode="numeric" autocomplete="off" spellcheck="false">
+      <p class="senha-erro" role="alert"></p>
+      <button class="btn btn-primario" type="submit">Entrar</button>
+    </form>
+  </section>
+
+  <!-- 4. Quem está a ver? -->
+  <section id="ecra-perfis" class="ecra ecra-perfis" hidden>
+    <h1 class="perfis-titulo">Quem está a ver?</h1>
+    <ul class="perfis-lista"></ul>
+  </section>
+
+  <!-- 4b. PIN do perfil (controlo parental) -->
+  <section id="ecra-pin" class="ecra ecra-pin" hidden>
+    <button class="pin-voltar" type="button" aria-label="Voltar aos perfis">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    </button>
+    <form class="pin-caixa" autocomplete="off" novalidate>
+      <span class="pin-avatar"></span>
+      <p class="pin-estado"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>Bloqueio de perfil ativo</p>
+      <label for="pin-input" class="pin-titulo"></label>
+      <div class="pin-digitos" aria-hidden="true"></div>
+      <input id="pin-input" class="pin-input" type="password" inputmode="numeric" pattern="[0-9]*" autocomplete="off" spellcheck="false">
+      <p class="pin-erro" role="alert"></p>
+    </form>
+  </section>
+
+  <!-- 5. Página inicial -->
+  <div id="ecra-inicio" class="ecra-inicio" hidden>
+    <header class="topo">
+      <a class="logo" href="#topo" aria-label="Início"></a>
+      <nav class="topo-nav" aria-label="Secções">
+        <a href="#fila-temporada-0">Episódios</a>
+        <a href="#fila-especiais">Especiais</a>
+        <a href="#fila-razoes">Razões</a>
+        <a href="#fila-momentos">Momentos</a>
+      </nav>
+      <button class="topo-perfil" id="btn-trocar-perfil" type="button" aria-label="Trocar de perfil"></button>
+    </header>
+
+    <div class="aviso-prep" hidden></div>
+
+    <section class="hero" id="topo">
+      <div class="hero-fundo" aria-hidden="true">
+        <div class="hero-img"></div>
+        <div class="hero-img"></div>
+      </div>
+      <div class="hero-conteudo">
+        <h1 class="hero-titulo"></h1>
+        <div class="hero-top1"></div>
+        <div class="hero-meta"></div>
+        <p class="hero-sinopse"></p>
+        <div class="hero-acoes">
+          <button class="btn btn-primario" id="btn-assistir" type="button"></button>
+          <button class="btn btn-secundario" id="btn-trailer" type="button"></button>
+          <button class="btn btn-secundario btn-icone-so" id="btn-info" type="button" aria-label="Mais informações"></button>
+        </div>
+      </div>
+    </section>
+
+    <main class="filas"></main>
+
+    <footer class="rodape"></footer>
+  </div>
+
+  <!-- Janela de informações / episódios -->
+  <div id="modal" class="modal" hidden>
+    <div class="modal-fundo" data-fechar></div>
+    <div class="modal-caixa" role="dialog" aria-modal="true" aria-label="Informações"></div>
+  </div>
+
+  <!-- Galeria de fotos -->
+  <div id="galeria" class="galeria" hidden role="dialog" aria-modal="true" aria-label="Galeria"></div>
+
+  <!-- Player de episódios (construído por player.js) -->
+  <div id="player" class="player" hidden></div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="config.js"></script>
+  <script src="midia/lista.js"></script>
+  <script src="app/musica.js"></script>
+  <script src="app/player.js"></script>
+  <script src="app/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="pt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Organizador de fotos</title>
+<style>
+  @font-face { font-family: "Cormorant Garamond"; font-weight: 500; src: url(../app/fontes/cormorant-garamond-latin-500-normal.woff2) format("woff2"); }
+  @font-face { font-family: "Cormorant Garamond"; font-style: italic; font-weight: 400; src: url(../app/fontes/cormorant-garamond-latin-400-italic.woff2) format("woff2"); }
+  @font-face { font-family: "Jost"; font-weight: 400; src: url(../app/fontes/jost-latin-400-normal.woff2) format("woff2"); }
+  @font-face { font-family: "Jost"; font-weight: 500; src: url(../app/fontes/jost-latin-500-normal.woff2) format("woff2"); }
+  :root { --veludo: #1a0a12; --veludo-2: #26111c; --champanhe: #e9c89b; --rosa: #f2b5c2; --marfim: #f8efe9; --malva: #b99da9; --linha: rgba(248,239,233,.12); color-scheme: dark; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--veludo); color: var(--marfim); font: 400 16px/1.55 "Jost", system-ui, sans-serif; }
+  main { max-width: 760px; margin: 0 auto; padding: 40px 18px 60px; }
+  h1 { font: 500 2.6rem/1.1 "Cormorant Garamond", Georgia, serif; margin: 0 0 6px; }
+  h1 em { font-style: italic; font-weight: 400; color: var(--champanhe); }
+  .sub { color: var(--malva); margin: 0 0 28px; }
+  .passo { background: var(--veludo-2); border-radius: 10px; padding: 20px 22px; margin-bottom: 16px; }
+  .passo h2 { margin: 0 0 6px; font: 500 1.15rem "Jost", sans-serif; }
+  .passo p { margin: 0 0 12px; color: rgba(248,239,233,.85); }
+  label.botao, button { display: inline-flex; align-items: center; gap: 8px; min-height: 46px; padding: 0 20px; border-radius: 5px; border: 0; cursor: pointer; font: 500 1rem "Jost", sans-serif; background: var(--marfim); color: var(--veludo); }
+  button.sec { background: rgba(248,239,233,.15); color: var(--marfim); }
+  input[type=file] { position: absolute; width: 1px; height: 1px; opacity: 0; }
+  table { width: 100%; border-collapse: collapse; margin-top: 8px; font-size: .95rem; }
+  th, td { text-align: left; padding: 9px 8px; border-bottom: 1px solid var(--linha); vertical-align: top; }
+  th { color: var(--malva); font-weight: 400; }
+  td.n { text-align: right; font-variant-numeric: tabular-nums; }
+  .ok { color: #9fd8b0; } .aviso { color: var(--champanhe); } .erro { color: var(--rosa); }
+  ul.avisos { margin: 8px 0 0; padding-left: 20px; }
+  ul.avisos li { margin: 4px 0; color: var(--champanhe); }
+  textarea { width: 100%; height: 160px; margin-top: 10px; background: #0f060a; color: var(--marfim); border: 1px solid var(--linha); border-radius: 6px; padding: 10px; font: 12px/1.4 ui-monospace, Menlo, Consolas, monospace; }
+  code { background: rgba(0,0,0,.35); padding: 1px 6px; border-radius: 3px; font-size: .9em; }
+  .feito { font: italic 400 1.3rem "Cormorant Garamond", serif; color: var(--rosa); margin: 12px 0 0; }
+  [hidden] { display: none !important; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Organizador de <em>fotos</em></h1>
+  <p class="sub">Cria a lista de fotos e vídeos que a série usa. Não envia nada para a internet: tudo acontece neste computador.</p>
+
+  <section class="passo">
+    <h2>1. Escolhe a pasta do projeto</h2>
+    <p>Escolhe a pasta principal do projeto (a que tem o <code>index.html</code>). Também podes escolher só a pasta <code>midia</code>. O browser vai perguntar se queres "carregar" os ficheiros: diz que sim (eles não saem do computador).</p>
+    <label class="botao" for="pasta">Escolher a pasta</label>
+    <input type="file" id="pasta" webkitdirectory directory multiple>
+  </section>
+
+  <section class="passo" id="resultado" hidden>
+    <h2>2. Confere o que encontrei</h2>
+    <table>
+      <thead><tr><th>Pasta</th><th>Episódio no config.js</th><th class="n">Fotos</th><th class="n">Vídeos</th></tr></thead>
+      <tbody></tbody>
+    </table>
+    <ul class="avisos"></ul>
+  </section>
+
+  <section class="passo" id="guardar" hidden>
+    <h2>3. Guarda a lista</h2>
+    <p>Carrega no botão e guarda o ficheiro <code>lista.js</code> <b>dentro da pasta <code>midia</code></b>, substituindo o que lá está. Depois abre (ou atualiza) o <code>index.html</code> para ver a série.</p>
+    <button type="button" id="descarregar">Descarregar lista.js</button>
+    <button type="button" class="sec" id="copiar">Copiar o texto</button>
+    <p class="feito" id="feito" hidden></p>
+    <textarea id="texto" readonly spellcheck="false"></textarea>
+  </section>
+</main>
+
+<script src="../config.js"></script>
+<script>
+(function () {
+  var EXT_FOTO = /\.(jpe?g|png|webp|gif|avif|heic|heif|jfif|bmp)$/i;
+  var EXT_VIDEO = /\.(mp4|webm|mov|m4v|3gp|avi|mkv|ogv)$/i;
+  var CFG = window.CONFIG || null;
+
+  function natural(a, b) { return a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' }); }
+  function seg(s) { return encodeURIComponent(String(s).normalize('NFC')); }
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+
+  var episodiosPorPasta = {};
+  if (CFG) {
+    (CFG.temporadas || []).forEach(function (t) { (t.episodios || []).forEach(function (e, i) { episodiosPorPasta[e.pasta] = (t.nome ? t.nome + ', ' : '') + 'E' + (i + 1) + ' ' + e.titulo; }); });
+    (CFG.especiais || []).forEach(function (e) { episodiosPorPasta[e.pasta] = 'Especial: ' + e.titulo; });
+  }
+  episodiosPorPasta.capa = 'Fotos do banner principal';
+  episodiosPorPasta.perfil = 'Fotos dos perfis';
+
+  var conteudo = '';
+
+  document.getElementById('pasta').addEventListener('change', function (ev) {
+    var ficheiros = Array.prototype.slice.call(ev.target.files || []);
+    var pastas = {}, avisos = [], total = 0, audio = null;
+    ficheiros.forEach(function (f) {
+      var partes = (f.webkitRelativePath || f.name).split('/');
+      // escolheu a pasta do projeto: também lista musica/ e narracao/
+      var iAudio = Math.max(partes.lastIndexOf('musica'), partes.lastIndexOf('narracao'));
+      if (iAudio >= 0 && partes.length === iAudio + 2 && partes.indexOf('midia') < 0) {
+        audio = audio || { musica: [], narracao: [] };
+        if (/\.(mp3|m4a|aac|ogg|oga|opus|wav)$/i.test(partes[iAudio + 1])) audio[partes[iAudio]].push(partes[iAudio] + '/' + seg(partes[iAudio + 1]));
+        return;
+      }
+      if (partes.indexOf('musica') >= 0 || partes.indexOf('narracao') >= 0 || partes.indexOf('app') >= 0 || partes.indexOf('.git') >= 0) return;
+      var iMidia = partes.lastIndexOf('midia');
+      var pasta, nome;
+      if (iMidia >= 0 && partes.length === iMidia + 3) { pasta = partes[iMidia + 1]; nome = partes[iMidia + 2]; }
+      else if (iMidia < 0 && partes.length === 3) { pasta = partes[1]; nome = partes[2]; }
+      else return;
+      if (nome.charAt(0) === '.' || pasta === 'miniaturas') return;
+      var video = EXT_VIDEO.test(nome), foto = EXT_FOTO.test(nome);
+      if (!video && !foto) return;
+      total += f.size;
+      (pastas[pasta] = pastas[pasta] || []).push({ nome: nome, video: video, tamanho: f.size });
+      if (/\.(heic|heif)$/i.test(nome)) avisos.push(pasta + '/' + nome + ': fotos HEIC só aparecem no iPhone (no GitHub são convertidas sozinhas para JPG).');
+      if (/\.(mov|3gp|avi|mkv)$/i.test(nome)) avisos.push(pasta + '/' + nome + ': este formato pode não tocar em Android (no GitHub é convertido sozinho para MP4).');
+      if (f.size > 95e6) avisos.push(pasta + '/' + nome + ' tem ' + Math.round(f.size / 1e6) + ' MB: o GitHub não aceita ficheiros acima de 100 MB. Comprime este vídeo.');
+      else if (f.size > 24e6) avisos.push(pasta + '/' + nome + ' tem ' + Math.round(f.size / 1e6) + ' MB: pelo site do GitHub só passam ficheiros até 25 MB (usa o GitHub Desktop).');
+    });
+
+    var nomesPastas = Object.keys(pastas).sort(natural);
+    if (!nomesPastas.length) {
+      alert('Não encontrei fotos nem vídeos. Confirma que escolheste a pasta "midia" e que as fotos estão dentro das pastas dos episódios.');
+      return;
+    }
+
+    var linhas = '';
+    nomesPastas.forEach(function (p) {
+      var itens = pastas[p].sort(function (a, b) { return natural(a.nome, b.nome); });
+      var nf = itens.filter(function (i) { return !i.video; }).length, nv = itens.length - nf;
+      var ep = episodiosPorPasta[p];
+      linhas += '<tr><td><code>' + esc(p) + '</code></td><td class="' + (ep ? 'ok' : 'erro') + '">' + (ep ? esc(ep) : 'Nenhum episódio usa esta pasta. Confere o nome no config.js.') + '</td><td class="n">' + nf + '</td><td class="n">' + nv + '</td></tr>';
+    });
+    Object.keys(episodiosPorPasta).forEach(function (p) {
+      if (!pastas[p] && p !== 'capa' && p !== 'perfil') avisos.push('O episódio "' + episodiosPorPasta[p] + '" ainda não tem fotos (pasta midia/' + p + ').');
+    });
+    if (!CFG) avisos.unshift('Não consegui ler o config.js (pode ter um erro de escrita). A lista funciona na mesma.');
+    if (total > 900e6) avisos.push('As fotos e vídeos ocupam ' + (total / 1e9).toFixed(1) + ' GB. O GitHub recomenda menos de 1 GB: comprime os vídeos maiores.');
+
+    document.querySelector('#resultado tbody').innerHTML = linhas;
+    document.querySelector('.avisos').innerHTML = avisos.map(function (a) { return '<li>' + esc(a) + '</li>'; }).join('');
+
+    var out = ['/* Ficheiro gerado pelo organizador.html — não edites à mão. */', 'window.LISTA_MIDIA = {'];
+    nomesPastas.forEach(function (p) {
+      out.push('  ' + JSON.stringify(p) + ': [');
+      pastas[p].forEach(function (i) {
+        var base = i.nome.replace(/\.[^.]+$/, '');
+        var k = base.indexOf(' - ');
+        var item = { f: 'midia/' + seg(p) + '/' + seg(i.nome), t: i.video ? 'video' : 'foto' };
+        if (k >= 0) item.legenda = base.slice(k + 3).trim();
+        out.push('    ' + JSON.stringify(item) + ',');
+      });
+      out.push('  ],');
+    });
+    out.push('};');
+    if (audio) {
+      audio.musica.sort(natural); audio.narracao.sort(natural);
+      out.push('window.LISTA_AUDIO = ' + JSON.stringify(audio) + ';');
+      if (!audio.musica.length) avisos.push('A pasta musica está vazia: vai tocar a música de piano gerada pela app.');
+      document.querySelector('.avisos').innerHTML = avisos.map(function (a) { return '<li>' + esc(a) + '</li>'; }).join('');
+    }
+    conteudo = out.join('\n') + '\n';
+    document.getElementById('texto').value = conteudo;
+    document.getElementById('resultado').hidden = false;
+    document.getElementById('guardar').hidden = false;
+    document.getElementById('feito').hidden = true;
+    document.getElementById('guardar').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+
+  document.getElementById('descarregar').addEventListener('click', function () {
+    var blob = new Blob([conteudo], { type: 'text/javascript;charset=utf-8' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob); a.download = 'lista.js';
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function () { URL.revokeObjectURL(a.href); }, 2000);
+    var f = document.getElementById('feito');
+    f.textContent = 'Agora move o lista.js descarregado para dentro da pasta midia.';
+    f.hidden = false;
+  });
+  document.getElementById('copiar').addEventListener('click', function () {
+    var t = document.getElementById('texto');
+    t.select();
+    (navigator.clipboard ? navigator.clipboard.writeText(conteudo) : Promise.reject()).catch(function () { document.execCommand('copy'); });
+    var f = document.getElementById('feito');
+    f.textContent = 'Copiado. Cola no ficheiro midia/lista.js, substituindo tudo o que lá está.';
+    f.hidden = false;
+  });
+})();
+</script>
+</body>
+</html>

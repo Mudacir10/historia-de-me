@@ -1,0 +1,60 @@
+# Publica a série no GitHub Pages sempre que envias alterações.
+# Também reduz as fotos, cria miniaturas e converte vídeos para tocarem bem no celular.
+# Só tens de ir a Settings → Pages → Source e escolher "GitHub Actions" (uma vez).
+name: Publicar a série
+
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - name: Obter os ficheiros
+        uses: actions/checkout@v4
+
+      - name: Preparar o Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Instalar ferramentas de imagem e vídeo
+        run: |
+          python -m pip install --quiet pillow pillow-heif || echo "Sem Pillow: as fotos vão sem otimização"
+          command -v ffmpeg || (sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg) || echo "Sem ffmpeg"
+
+      - name: Reaproveitar fotos já otimizadas
+        uses: actions/cache@v4
+        with:
+          path: .cache-otimizacao
+          key: otimizacao-${{ hashFiles('midia/**') }}
+          restore-keys: otimizacao-
+
+      - name: Otimizar fotos e vídeos e gerar a lista
+        run: python ferramentas/gerar-lista.py --otimizar --saida _site --cache .cache-otimizacao
+
+      - name: Configurar o GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Enviar o site
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+      - name: Publicar
+        id: deploy
+        uses: actions/deploy-pages@v5

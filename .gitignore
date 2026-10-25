@@ -1,0 +1,9 @@
+_site/
+.cache-otimizacao/
+.DS_Store
+Thumbs.db
+desktop.ini
+__pycache__/
+# fotos ainda por acrescentar e o ffmpeg descarregado: ficam só no teu computador
+novas/
+ferramentas/.ffmpeg/
