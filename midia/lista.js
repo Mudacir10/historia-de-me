@@ -219,4 +219,4 @@ window.LISTA_MIDIA = {
     {"f": "midia/perfil/nos.jpg", "t": "foto", "w": 600, "h": 600},
   ],
 };
-window.LISTA_AUDIO = {"musica": [], "narracao": []};
+window.LISTA_AUDIO = {"musica": ["musica/cinnamon-girl.mp3", "musica/i-wanna-be-yours.mp3", "musica/those-eyes.mp3", "musica/young-and-beautiful.mp3"], "narracao": []};

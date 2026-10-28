@@ -163,12 +163,18 @@
     if (!achado && soLetras(alvo).length >= 5) achado = nomes.filter(function (x) { return soLetras(x.n).indexOf(soLetras(alvo)) >= 0; })[0];
     return achado ? achado.f : null;
   }
+  // "musica/x.mp3#t=45" → resolve o ficheiro e mantém o ponto de início (#t=45)
+  function audioComInicio(c) {
+    var m = /^(.*?)(#t=[\d.]+)?$/.exec(String(c || ''));
+    var r = m && resolverAudio(m[1]);
+    return r ? r + (m[2] || '') : null;
+  }
   function musicaDe(ep) {
-    var propria = ep && ep.musica && resolverAudio(ep.musica);
+    var propria = ep && ep.musica && audioComInicio(ep.musica);
     if (propria) return propria;
-    if (!ep && CFG.trailer && CFG.trailer.musica) { var mt = resolverAudio(CFG.trailer.musica); if (mt) return mt; }
+    if (!ep && CFG.trailer && CFG.trailer.musica) { var mt = audioComInicio(CFG.trailer.musica); if (mt) return mt; }
     if (CFG.musica.tema === null) return null; // sem tema: os outros episódios ficam com o piano
-    var tema = resolverAudio(CFG.musica.tema || 'musica/tema.mp3');
+    var tema = audioComInicio(CFG.musica.tema || 'musica/tema.mp3');
     if (tema) return tema;
     if (AUDIO && AUDIO.musica && AUDIO.musica.length) return AUDIO.musica[0];
     return null;

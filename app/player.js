@@ -165,16 +165,34 @@
   /* =================================================================
      MÚSICA (mp3 ou gerada)
      ================================================================= */
+  /* "musica/x.mp3#t=45" → toca x.mp3 a partir dos 0:45 (e recomeça aí quando acaba) */
+  function partirInicio(src) {
+    var m = /^(.*?)#t=([\d.]+)$/.exec(String(src));
+    return m ? { base: m[1], inicio: +m[2] } : { base: String(src), inicio: 0 };
+  }
+
   var Musica = {
-    el: null, ctl: null, src: null, modo: null, falhou: {},
+    el: null, ctl: null, src: null, ficheiro: null, inicio: 0, pendenteInicio: null, modo: null, falhou: {},
     iniciar: function () {
       this.el = new Audio();
-      this.el.loop = true; this.el.preload = 'auto';
+      this.el.loop = false; this.el.preload = 'auto';
       this.el.setAttribute('playsinline', '');
       this.ctl = Som.controloVolume(this.el);
       var self = this;
       this.el.addEventListener('error', function () {
         if (self.modo === 'ficheiro' && self.src) { self.falhou[self.src] = true; self.gerada(); }
+      });
+      this.el.addEventListener('loadedmetadata', function () {
+        if (self.pendenteInicio) { try { self.el.currentTime = self.pendenteInicio; } catch (e) { /* ok */ } }
+        self.pendenteInicio = null;
+      });
+      // no fim da música, volta à parte escolhida para este episódio, com uma entrada suave
+      this.el.addEventListener('ended', function () {
+        if (self.modo !== 'ficheiro' || !E.aberto) return;
+        try { self.el.currentTime = self.inicio || 0; } catch (e) { /* ok */ }
+        self.ctl.definir(0, 0);
+        self.reproduzirEl();
+        self.aplicar(3);
       });
     },
     base: function () { var v = cfg.musica && cfg.musica.volume; return v == null ? 0.7 : v; },
@@ -191,9 +209,16 @@
         this.aplicar(1.5); return;
       }
       Som.musicaGerada.parar(1);
-      this.modo = 'ficheiro'; this.src = src;
+      var p = partirInicio(src);
+      var mesmoFicheiro = this.modo === 'ficheiro' && this.ficheiro === p.base && this.el.readyState >= 1;
+      this.modo = 'ficheiro'; this.src = src; this.ficheiro = p.base; this.inicio = p.inicio;
       this.ctl.definir(0, 0);
-      this.el.src = src;
+      if (mesmoFicheiro) {
+        try { this.el.currentTime = p.inicio; } catch (e) { /* ok */ }
+      } else {
+        this.pendenteInicio = p.inicio || null;
+        this.el.src = p.base;
+      }
       this.reproduzirEl();
       this.aplicar(2.5);
     },

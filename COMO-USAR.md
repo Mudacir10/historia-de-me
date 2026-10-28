@@ -171,7 +171,7 @@ Dica: a primeira vez é especial. Diz-lhe para aumentar o volume (ou usar auscul
 
 - Com o GitHub Pages grátis, **o repositório é público**: quem encontrar o teu perfil no GitHub pode ver os ficheiros, incluindo as fotos. Usa um nome de repositório discreto e **não coloques fotos ou vídeos íntimos**.
 - O site pede aos motores de busca para não o mostrarem (não aparece no Google), mas qualquer pessoa com o link consegue abri-lo.
-- **PIN dos perfis:** está ligado com o PIN `12345` (`bloqueioPerfis` no `config.js`). Ao tocar num perfil, pede o PIN como o controlo parental das plataformas de streaming. Para mudar o PIN, muda `pin: "12345"`; com `lembrar: true` o celular dela só pede uma vez.
+- **PIN dos perfis:** está ligado com o PIN `2406` (`bloqueioPerfis` no `config.js`). Ao tocar num perfil, pede o PIN como o controlo parental das plataformas de streaming. Para mudar o PIN, muda `pin: "2406"`; com `lembrar: true` o celular dela só pede uma vez.
 - O PIN e a pergunta-senha (`senha` no `config.js`) afastam curiosos que abram o link, mas não são segurança a sério: o PIN fica escrito no `config.js`, que é público, e quem souber o endereço exato de uma foto consegue abri-la.
 - Se quiseres o repositório privado, o GitHub Pages exige uma conta paga (GitHub Pro). Outra opção grátis é a Netlify ou a Cloudflare Pages (arrastas a pasta `_site` gerada pelo `gerar-lista.py --otimizar --saida _site`).
 

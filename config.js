@@ -89,7 +89,7 @@ window.CONFIG = {
      ATENÇÃO: afasta curiosos, mas não é segurança a sério (ver COMO-USAR.md). */
   bloqueioPerfis: {
     ativo: true,
-    pin: "12345",
+    pin: "2406",
     lembrar: false,
   },
 
@@ -97,14 +97,15 @@ window.CONFIG = {
      4. MÚSICA E NARRADOR
      --------------------------------------------------------------- */
   musica: {
-    /* As vossas músicas: coloca os mp3 na pasta  musica/ .
-         • "Those Eyes" (New West)          → um nome com "those eyes", ex.: musica/those-eyes.mp3
-         • "I Wanna Be Yours" (Arctic Monkeys) → um nome com "i wanna be yours", ex.: musica/i-wanna-be-yours.mp3
-       Os episódios escolhem a música no campo  musica:  de cada um (mais abaixo).
-       Basta o nome do ficheiro conter o nome da música: "New West - Those Eyes.mp3" também serve.
-       Enquanto o mp3 não estiver lá, esse episódio toca o piano.
+    /* As vossas músicas estão na pasta  musica/ :
+         those-eyes.mp3 (New West) · i-wanna-be-yours.mp3 (Arctic Monkeys)
+         young-and-beautiful.mp3 · cinnamon-girl.mp3 (Lana Del Rey)
+       Cada episódio escolhe a música no seu campo  musica:  (mais abaixo).
+       O "#t=45" no fim diz em que segundo a música começa nesse episódio
+       (45 = 0:45). Quando a música acaba, volta a esse ponto suavemente.
+       Sem "#t=…" começa do início.
 
-       tema: null → os episódios sem música própria tocam o piano suave.
+       tema: null → episódios sem música própria tocam o piano suave.
        Para uma música em todos os outros episódios, põe por ex.:  tema: "musica/tema.mp3", */
     tema: null,
     volume: 0.7,                 // 0 a 1
@@ -157,7 +158,7 @@ window.CONFIG = {
           data: "24 de junho de 2026",
           sinopse: "24 de junho de 2026. Uma selfie meio torta, dois sorrisos e a certeza silenciosa de que alguma coisa tinha acabado de começar.",
           segundosPorFoto: 7,
-          musica: "musica/those-eyes.mp3",
+          musica: "musica/those-eyes.mp3#t=45",                  // Those Eyes, 1.º refrão (0:45)
           narracao: [
             "Há dias que parecem iguais a todos os outros.",
             "E há o dia 24 de junho de 2026.",
@@ -172,7 +173,7 @@ window.CONFIG = {
           data: "3 de julho de 2026",
           sinopse: "Um quarto cheio de luz, beijos ao espelho e uma tarde a rir sem parar. O primeiro de muitos dias só nossos.",
           segundosPorFoto: 4.5,
-          musica: "musica/i-wanna-be-yours.mp3",
+          musica: "musica/i-wanna-be-yours.mp3#t=50",            // I Wanna Be Yours, a entrar no refrão (0:50)
           narracao: [
             "Nove dias depois, tínhamos um dia inteiro só para nós.",
             "Abraços ao espelho, como se o mundo lá fora tivesse parado.",
@@ -187,6 +188,7 @@ window.CONFIG = {
           data: "12 de julho de 2026",
           sinopse: "Um espelho com luz, uma camisola laranja e nove fotos que dizem a mesma coisa: ficamos bem juntos.",
           segundosPorFoto: 4,
+          musica: "musica/cinnamon-girl.mp3#t=43",               // Cinnamon Girl, 1.º refrão (0:43)
           narracao: [
             "Dizem que o espelho não mente.",
             "E ele mostrou a verdade:",
@@ -200,6 +202,7 @@ window.CONFIG = {
           data: "23 de julho de 2026",
           sinopse: "Um carro parado, a noite a cair e uma despedida que nunca mais acabava. Ninguém queria ser o primeiro a ir embora.",
           segundosPorFoto: 4.5,
+          musica: "musica/young-and-beautiful.mp3#t=19",         // Young and Beautiful, verso até ao refrão (0:19)
           narracao: [
             "Era só para ser uma boleia.",
             "Mas contigo, cinco minutos nunca são cinco minutos.",
@@ -213,6 +216,7 @@ window.CONFIG = {
           data: "25 de agosto de 2026",
           sinopse: "Dois meses depois, uma cozinha, batatas fritas e a melhor companhia do mundo. Cozinhar a dois sabe sempre melhor.",
           segundosPorFoto: 5,
+          musica: "musica/cinnamon-girl.mp3#t=118",              // Cinnamon Girl, 2.º refrão (1:58)
           narracao: [
             "Dois meses. E parece que te conheço desde sempre.",
             "Uma cozinha, uma panela e nós os dois a fingir que somos chefs.",
@@ -226,6 +230,7 @@ window.CONFIG = {
           data: "2 de setembro de 2026",
           sinopse: "Uma tarde no sofá a ver filmes e uma noite inteira em frente ao espelho: boleias às costas, caretas, músculos e a sessão de fotos mais divertida de sempre.",
           segundosPorFoto: 4,
+          musica: "musica/i-wanna-be-yours.mp3#t=103",           // I Wanna Be Yours, 2.ª metade (1:43)
           narracao: [
             "Há tardes que não precisam de plano nenhum.",
             "Um sofá, um filme e tu encostada a mim.",
@@ -240,6 +245,7 @@ window.CONFIG = {
           data: "9 e 17 de setembro de 2026",
           sinopse: "Um almoço que acabou em gargalhadas e um passeio à piscina em que ela nem precisou de andar.",
           segundosPorFoto: 4.5,
+          musica: "musica/cinnamon-girl.mp3#t=197",              // Cinnamon Girl, refrão final (3:17)
           narracao: [
             "Setembro trouxe dias cheios de nós.",
             "Almoços que acabavam sempre em gargalhadas.",
@@ -254,7 +260,7 @@ window.CONFIG = {
           data: "Setembro e outubro de 2026",
           sinopse: "As nossas mãos, uma carta escrita à mão, uma dança na sala e sorrisos que dizem tudo. Há promessas que não precisam de palavras.",
           segundosPorFoto: 5,
-          musica: "musica/i-wanna-be-yours.mp3",
+          musica: "musica/young-and-beautiful.mp3#t=108",        // Young and Beautiful, a caminho do 2.º refrão (1:48)
           narracao: [
             "Olha para as nossas mãos.",
             "Encaixam como se tivessem sido feitas uma para a outra.",
@@ -272,6 +278,7 @@ window.CONFIG = {
           data: "27 de outubro de 2026",
           sinopse: "Dois bilhetes de comboio, uma estação cheia de gente e uma viagem lado a lado. Qualquer destino serve, desde que seja contigo.",
           segundosPorFoto: 4.5,
+          musica: "musica/young-and-beautiful.mp3#t=149",        // Young and Beautiful, ponte e grande final (2:29)
           narracao: [
             "Dois bilhetes. Um destino. E tu ao meu lado.",
             "Não importa para onde vai o comboio…",
@@ -285,7 +292,7 @@ window.CONFIG = {
           data: "28 de outubro de 2026",
           sinopse: "Um ramo de flores maior do que ela, um banco de jardim, anéis nos nossos dedos e um bilhete escrito à mão. O episódio final da temporada.",
           segundosPorFoto: 4,
-          musica: "musica/those-eyes.mp3",
+          musica: "musica/those-eyes.mp3#t=95",                  // Those Eyes, 2.º refrão até ao fim (1:35)
           narracao: [
             "Hoje trouxe-te flores.",
             "Mas a mais bonita do jardim continuas a ser tu.",
@@ -303,6 +310,7 @@ window.CONFIG = {
           titulo: "A História Continua",
           sinopse: "Os capítulos mais recentes. Porque esta série não pára: todos os dias gravamos um episódio novo.",
           segundosPorFoto: 4.5,
+          musica: "musica/those-eyes.mp3#t=45",                  // Those Eyes, 1.º refrão (0:45)
           narracao: [
             "E a história continua…",
             "Mais dias, mais sorrisos, mais fotos para guardar.",
@@ -335,7 +343,7 @@ window.CONFIG = {
       subtitulo: "A Mulher da Minha Vida",
       sinopse: "Um episódio inteiro só sobre ela. Porque há pessoas que merecem uma série só para si.",
       segundosPorFoto: 4,
-      musica: "musica/those-eyes.mp3",
+      musica: "musica/those-eyes.mp3#t=20",                  // Those Eyes, quase do início (0:20)
       narracao: [
         "Este episódio é só sobre ela.",
         "Sobre o sorriso que me desarma.",
@@ -350,6 +358,7 @@ window.CONFIG = {
       subtitulo: "",
       sinopse: "O outro protagonista desta história. Sem filtros e sem guião: simplesmente eu.",
       segundosPorFoto: 4,
+      musica: "musica/young-and-beautiful.mp3#t=48",         // Young and Beautiful, refrão (0:48)
       narracao: [
         "E este… sou eu.",
         "Não sou perfeito, mas sou teu.",
@@ -363,6 +372,7 @@ window.CONFIG = {
       subtitulo: "Os bastidores",
       sinopse: "Máscaras de beleza, caretas e momentos que não eram para ninguém ver. Os nossos favoritos.",
       segundosPorFoto: 3.5,
+      musica: "musica/cinnamon-girl.mp3#t=43",               // Cinnamon Girl, 1.º refrão (0:43)
       narracao: [
         "Nem tudo saiu perfeito…",
         "…e ainda bem.",
@@ -375,7 +385,7 @@ window.CONFIG = {
       titulo: "Carta Para Ti",
       subtitulo: "",
       sinopse: "Há coisas que não cabem numa fotografia. Esta carta é uma delas.",
-      musica: "musica/i-wanna-be-yours.mp3",
+      musica: "musica/i-wanna-be-yours.mp3#t=0",             // I Wanna Be Yours, do início (0:00)
       /* Escreve aqui a tua carta. Cada linha em branco é um novo parágrafo.
          Usa as crases ` no início e no fim (já estão lá). */
       carta: `Meu amor,
@@ -419,7 +429,7 @@ Amo-te. Hoje e sempre.
      8. TRAILER (botão "Trailer" no topo)
      --------------------------------------------------------------- */
   trailer: {
-    musica: "musica/i-wanna-be-yours.mp3",   // se o mp3 não existir, toca o piano
+    musica: "musica/i-wanna-be-yours.mp3#t=50",   // I Wanna Be Yours, a entrar no refrão
     frases: [
       "Era uma vez duas pessoas…",
       "…que no dia 24 de junho de 2026 decidiram ser «nós».",
