@@ -50,8 +50,10 @@ Cada pasta dentro de `midia/` é um episódio. Basta copiar as fotos e vídeos p
 | `midia/05-dois-meses/` | E5 Dois Meses de Nós | 25 de agosto (na cozinha) |
 | `midia/06-dois-de-setembro/` | E6 Sofá, Espelho e Gargalhadas | 2 de setembro (sofá + noite ao espelho) |
 | `midia/07-setembro-a-dois/` | E7 Setembro a Dois | 9 e 17 de setembro (almoço + piscina) |
-| `midia/08-para-sempre/` | E8 Para Sempre (final da temporada) | 27 de setembro a 20 de outubro |
-| `midia/09-a-historia-continua/` | E9 A História Continua | fotos novas dos dois (via `novas/nos/`); escondido enquanto vazio |
+| `midia/08-para-sempre/` | E8 Para Sempre | 27 de setembro a 20 de outubro |
+| `midia/09-bilhete-para-dois/` | E9 Bilhete Para Dois | 27 de outubro (comboio) |
+| `midia/10-flores-para-ti/` | E10 Flores Para Ti (final da temporada) | 28 de outubro (flores e anéis) |
+| `midia/11-a-historia-continua/` | E11 A História Continua | fotos novas dos dois (via `novas/nos/`); escondido enquanto vazio |
 | `midia/especial-ela/` | Especial **ELA — A Mulher da Minha Vida** | **só** fotos e vídeos dela |
 | `midia/especial-eu/` | Especial **Simplesmente Eu** | **só** fotos e vídeos teus |
 | `midia/especial-cenas-cortadas/` | Especial Cenas Cortadas | fotos desfocadas, caretas, bloopers |
@@ -83,7 +85,7 @@ Cada pasta dentro de `midia/` é um episódio. Basta copiar as fotos e vídeos p
 1. Copia as fotos e vídeos, tal como vêm do celular, para:
    - `novas/eu/` → só tu (especial **Simplesmente Eu**)
    - `novas/ela/` → só ela (especial **ELA**)
-   - `novas/nos/` → os dois (episódio 9 **A História Continua**)
+   - `novas/nos/` → os dois (episódio 11 **A História Continua**)
    - ou `novas/<nome de uma pasta de midia>/`, por exemplo `novas/especial-cenas-cortadas/`
 2. Duplo clique em `ferramentas/adicionar-fotos-windows.bat` (Mac/Linux: `adicionar-fotos-mac-linux.command`).
 3. Abre o `index.html` para ver e envia para o GitHub (Commit → Push).

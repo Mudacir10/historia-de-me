@@ -7,7 +7,7 @@ COMO USAR:
   1. Copia as fotos/vídeos para as pastas dentro de  novas/ :
         novas/eu/    → só tu       (vai para o especial "Simplesmente Eu")
         novas/ela/   → só ela      (vai para o especial "ELA")
-        novas/nos/   → os dois     (vai para o episódio 9 "A História Continua")
+        novas/nos/   → os dois     (vai para o episódio 11 "A História Continua")
      Também podes criar  novas/<nome de uma pasta de midia>/ , por exemplo
      novas/07-para-sempre/  ou  novas/especial-cenas-cortadas/ .
   2. Duplo clique em  ferramentas/adicionar-fotos-windows.bat  (Windows)
@@ -47,8 +47,8 @@ PASTA_FFMPEG = os.path.join(RAIZ, 'ferramentas', '.ffmpeg')
 ATALHOS = {
     'eu': 'especial-eu',
     'ela': 'especial-ela',
-    'nos': '09-a-historia-continua',
-    'nós': '09-a-historia-continua',
+    'nos': '11-a-historia-continua',
+    'nós': '11-a-historia-continua',
 }
 IGNORAR = {'nao-usadas', 'não-usadas'}  # fotos guardadas de lado: nunca entram na série
 EXT_FOTO = {'.jpg', '.jpeg', '.png', '.webp', '.heic', '.heif', '.jfif', '.bmp'}

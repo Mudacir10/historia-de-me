@@ -97,11 +97,16 @@ window.CONFIG = {
      4. MÚSICA E NARRADOR
      --------------------------------------------------------------- */
   musica: {
-    /* A "vossa música" em mp3, colocada na pasta  musica/ .
-       Toca em todos os episódios que não tenham música própria.
-       Se o ficheiro tiver outro nome, a app encontra-o sozinha depois
-       de atualizares a lista (e no GitHub isso é automático). */
-    tema: "musica/tema.mp3",
+    /* As vossas músicas: coloca os mp3 na pasta  musica/ .
+         • "Those Eyes" (New West)          → um nome com "those eyes", ex.: musica/those-eyes.mp3
+         • "I Wanna Be Yours" (Arctic Monkeys) → um nome com "i wanna be yours", ex.: musica/i-wanna-be-yours.mp3
+       Os episódios escolhem a música no campo  musica:  de cada um (mais abaixo).
+       Basta o nome do ficheiro conter o nome da música: "New West - Those Eyes.mp3" também serve.
+       Enquanto o mp3 não estiver lá, esse episódio toca o piano.
+
+       tema: null → os episódios sem música própria tocam o piano suave.
+       Para uma música em todos os outros episódios, põe por ex.:  tema: "musica/tema.mp3", */
+    tema: null,
     volume: 0.7,                 // 0 a 1
     /* Se o mp3 não existir, a app compõe sozinha uma música suave
        de piano (gerada no próprio celular). */
@@ -152,6 +157,7 @@ window.CONFIG = {
           data: "24 de junho de 2026",
           sinopse: "24 de junho de 2026. Uma selfie meio torta, dois sorrisos e a certeza silenciosa de que alguma coisa tinha acabado de começar.",
           segundosPorFoto: 7,
+          musica: "musica/those-eyes.mp3",
           narracao: [
             "Há dias que parecem iguais a todos os outros.",
             "E há o dia 24 de junho de 2026.",
@@ -166,6 +172,7 @@ window.CONFIG = {
           data: "3 de julho de 2026",
           sinopse: "Um quarto cheio de luz, beijos ao espelho e uma tarde a rir sem parar. O primeiro de muitos dias só nossos.",
           segundosPorFoto: 4.5,
+          musica: "musica/i-wanna-be-yours.mp3",
           narracao: [
             "Nove dias depois, tínhamos um dia inteiro só para nós.",
             "Abraços ao espelho, como se o mundo lá fora tivesse parado.",
@@ -245,8 +252,9 @@ window.CONFIG = {
           pasta: "08-para-sempre",
           titulo: "Para Sempre",
           data: "Setembro e outubro de 2026",
-          sinopse: "As nossas mãos, uma carta escrita à mão, uma dança na sala e os sorrisos mais recentes. O fim da temporada, e o começo de tudo o que ainda vamos viver.",
+          sinopse: "As nossas mãos, uma carta escrita à mão, uma dança na sala e sorrisos que dizem tudo. Há promessas que não precisam de palavras.",
           segundosPorFoto: 5,
+          musica: "musica/i-wanna-be-yours.mp3",
           narracao: [
             "Olha para as nossas mãos.",
             "Encaixam como se tivessem sido feitas uma para a outra.",
@@ -258,10 +266,40 @@ window.CONFIG = {
             "Para sempre, {ela}.",
           ],
         },
+        {
+          pasta: "09-bilhete-para-dois",
+          titulo: "Bilhete Para Dois",
+          data: "27 de outubro de 2026",
+          sinopse: "Dois bilhetes de comboio, uma estação cheia de gente e uma viagem lado a lado. Qualquer destino serve, desde que seja contigo.",
+          segundosPorFoto: 4.5,
+          narracao: [
+            "Dois bilhetes. Um destino. E tu ao meu lado.",
+            "Não importa para onde vai o comboio…",
+            "…a melhor parte da viagem é sempre a companhia.",
+            "Contigo, até o caminho é o lugar onde quero estar.",
+          ],
+        },
+        {
+          pasta: "10-flores-para-ti",
+          titulo: "Flores Para Ti",
+          data: "28 de outubro de 2026",
+          sinopse: "Um ramo de flores maior do que ela, um banco de jardim, anéis nos nossos dedos e um bilhete escrito à mão. O episódio final da temporada.",
+          segundosPorFoto: 4,
+          musica: "musica/those-eyes.mp3",
+          narracao: [
+            "Hoje trouxe-te flores.",
+            "Mas a mais bonita do jardim continuas a ser tu.",
+            "Esse sorriso, esses olhos… é por eles que eu volto sempre.",
+            "Olha para as nossas mãos: agora levam a nossa promessa.",
+            "E algumas palavras, escritas à mão, só para ti.",
+            "Já são {dias} dias de nós. E isto é só o começo.",
+            "Fim da primeira temporada. Amo-te, {ela}.",
+          ],
+        },
         /* Episódio para as fotos novas dos dois (novas/nos/ → ferramentas/adicionar.py).
            Enquanto estiver vazio, fica escondido no link dela. */
         {
-          pasta: "09-a-historia-continua",
+          pasta: "11-a-historia-continua",
           titulo: "A História Continua",
           sinopse: "Os capítulos mais recentes. Porque esta série não pára: todos os dias gravamos um episódio novo.",
           segundosPorFoto: 4.5,
@@ -297,6 +335,7 @@ window.CONFIG = {
       subtitulo: "A Mulher da Minha Vida",
       sinopse: "Um episódio inteiro só sobre ela. Porque há pessoas que merecem uma série só para si.",
       segundosPorFoto: 4,
+      musica: "musica/those-eyes.mp3",
       narracao: [
         "Este episódio é só sobre ela.",
         "Sobre o sorriso que me desarma.",
@@ -336,6 +375,7 @@ window.CONFIG = {
       titulo: "Carta Para Ti",
       subtitulo: "",
       sinopse: "Há coisas que não cabem numa fotografia. Esta carta é uma delas.",
+      musica: "musica/i-wanna-be-yours.mp3",
       /* Escreve aqui a tua carta. Cada linha em branco é um novo parágrafo.
          Usa as crases ` no início e no fim (já estão lá). */
       carta: `Meu amor,
@@ -379,6 +419,7 @@ Amo-te. Hoje e sempre.
      8. TRAILER (botão "Trailer" no topo)
      --------------------------------------------------------------- */
   trailer: {
+    musica: "musica/i-wanna-be-yours.mp3",   // se o mp3 não existir, toca o piano
     frases: [
       "Era uma vez duas pessoas…",
       "…que no dia 24 de junho de 2026 decidiram ser «nós».",

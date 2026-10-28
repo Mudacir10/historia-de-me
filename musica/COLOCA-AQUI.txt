@@ -1,10 +1,19 @@
-MUSICA
+﻿MUSICA
 
-Coloca aqui a 'vossa musica' em .mp3 (de preferencia com o nome  tema.mp3).
-Outro nome tambem serve depois de atualizares a lista (no GitHub e automatico).
-Ela toca em todos os episodios.
+Ja estao escolhidas duas musicas para alguns episodios. Basta pores aqui os mp3:
 
-Musica diferente num episodio: poe o mp3 aqui (ex.: mesversario.mp3) e no config.js,
-dentro desse episodio, acrescenta:   musica: "musica/mesversario.mp3",
+  "Those Eyes" (New West)              -> qualquer nome com "those eyes"
+       toca em: E1 O Dia em Que Tudo Comecou, E10 Flores Para Ti, especial ELA
 
-Sem nenhum mp3, a app compoe sozinha uma musica suave de piano.
+  "I Wanna Be Yours" (Arctic Monkeys)  -> qualquer nome com "i wanna be yours"
+       toca em: E2 Um Dia So Nosso, E8 Para Sempre, Carta Para Ti, Trailer
+
+Ex.: "New West - Those Eyes.mp3" e "Arctic Monkeys - I Wanna Be Yours.mp3" servem.
+Os outros episodios (e estes, enquanto o mp3 nao estiver aqui) tocam um piano suave.
+
+Para mudar quem toca o que: no config.js, campo  musica:  de cada episodio.
+Depois de pores os mp3, corre ferramentas\atualizar-lista-windows.bat e envia para o GitHub.
+
+ATENCAO: o repositorio no GitHub e publico. Musicas com direitos de autor ficam
+visiveis e descarregaveis por quem encontrar o repositorio, e o GitHub pode
+retira-las (aviso DMCA). Usa so ficheiros que tens direito de partilhar.

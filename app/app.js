@@ -146,22 +146,28 @@
   /* Música e narração: a lista diz que ficheiros existem em musica/ e narracao/.
      Assim um mp3 com outro nome também serve, e não se pede um ficheiro que não existe. */
   var AUDIO = window.LISTA_AUDIO || null;
+  // "New West - Those Eyes (Official).mp3" também serve para "musica/those-eyes.mp3"
+  function soLetras(s) { return String(s).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/\.[a-z0-9]+$/, '').replace(/[^a-z0-9]/g, ''); }
   function resolverAudio(caminho) {
     if (!caminho) return null;
     if (!AUDIO) return caminho;
     var m = /^(musica|narracao)\/(.+)$/.exec(String(caminho));
     if (!m) return caminho;
     var alvo = m[2].toLowerCase();
-    var achado = (AUDIO[m[1]] || []).filter(function (f) {
+    var nomes = (AUDIO[m[1]] || []).map(function (f) {
       var n = String(f).split('/').pop();
       try { n = decodeURIComponent(n); } catch (e) { /* ok */ }
-      return n.toLowerCase() === alvo;
-    })[0];
-    return achado || null;
+      return { f: f, n: n };
+    });
+    var achado = nomes.filter(function (x) { return x.n.toLowerCase() === alvo; })[0];
+    if (!achado && soLetras(alvo).length >= 5) achado = nomes.filter(function (x) { return soLetras(x.n).indexOf(soLetras(alvo)) >= 0; })[0];
+    return achado ? achado.f : null;
   }
   function musicaDe(ep) {
     var propria = ep && ep.musica && resolverAudio(ep.musica);
     if (propria) return propria;
+    if (!ep && CFG.trailer && CFG.trailer.musica) { var mt = resolverAudio(CFG.trailer.musica); if (mt) return mt; }
+    if (CFG.musica.tema === null) return null; // sem tema: os outros episódios ficam com o piano
     var tema = resolverAudio(CFG.musica.tema || 'musica/tema.mp3');
     if (tema) return tema;
     if (AUDIO && AUDIO.musica && AUDIO.musica.length) return AUDIO.musica[0];
